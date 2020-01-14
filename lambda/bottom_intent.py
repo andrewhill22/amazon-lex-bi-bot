@@ -76,7 +76,7 @@ def bottom_intent_handler(intent_request, session_attributes):
 
     if slot_values.get('dimension') is None:
         if len(bibot.DIMENSIONS.keys()) > 0:
-            response_string = 'Please tell me a dimension, for example, "top five '
+            response_string = 'Please tell me a dimension, for example, "bottom five '
             for counter, item in enumerate(bibot.DIMENSIONS.keys()):
                 if counter == 0:
                     response_string += item + '".'
@@ -100,16 +100,16 @@ def bottom_intent_handler(intent_request, session_attributes):
     dimension_slot = bibot.DIMENSIONS.get(slot_values.get('dimension')).get('slot')
     if dimension_slot is not None:
         slot_values[dimension_slot] = None
-        logger.debug('<<BIBot>> "top_intent_handler(): cleared dimension slot: %s', dimension_slot)
+        logger.debug('<<BIBot>> "bottom_intent_handler(): cleared dimension slot: %s', dimension_slot)
 
     # store updated slot values
-    logger.debug('<<BIBot>> "top_intent_handler(): calling remember_slot_values_NEW: %s', slot_values)
+    logger.debug('<<BIBot>> "bottom_intent_handler(): calling remember_slot_values_NEW: %s', slot_values)
     helpers.remember_slot_values(slot_values, session_attributes)
 
     # Check for minimum required slot values
     if slot_values.get('dimension') is None:
         return helpers.close(session_attributes, 'Fulfilled',
-            {'contentType': 'PlainText', 'content': "Sorry, I didn't understand that.  Try \"Top 5 venues for all rock and pop\"."})  
+            {'contentType': 'PlainText', 'content': "Sorry, I didn't understand that.  Try \"Bottom 5 venues for all rock and pop\"."})  
 
     # Build and execute query 
     try:

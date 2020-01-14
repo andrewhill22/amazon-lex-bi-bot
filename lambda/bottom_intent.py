@@ -44,13 +44,13 @@ def lambda_handler(event, context):
         return helpers.close(session_attributes, 'Fulfilled',
             {'contentType': 'PlainText', 'content': config_error})   
     else:
-        return top_intent_handler(event, session_attributes)
+        return bottom_intent_handler(event, session_attributes)
 
 
-def top_intent_handler(intent_request, session_attributes):
+def bottom_intent_handler(intent_request, session_attributes):
     method_start = time.perf_counter()
 
-    logger.debug('<<BIBot>> top_intent_handler: session_attributes = ' + json.dumps(session_attributes))
+    logger.debug('<<BIBot>> bottom_intent_handler: session_attributes = ' + json.dumps(session_attributes))
     
     session_attributes['greetingCount'] = '1'
     session_attributes['resetCount'] = '0'
@@ -65,11 +65,11 @@ def top_intent_handler(intent_request, session_attributes):
     except bibot.SlotError as err:
         return helpers.close(session_attributes, 'Fulfilled', {'contentType': 'PlainText','content': str(err)})   
 
-    logger.debug('<<BIBot>> "top_intent_handler(): slot_values: %s', slot_values)
+    logger.debug('<<BIBot>> "bottom_intent_handler(): slot_values: %s', slot_values)
 
     # Retrieve "remembered" slot values from session attributes
     slot_values = helpers.get_remembered_slot_values(slot_values, session_attributes)
-    logger.debug('<<BIBot>> "top_intent_handler(): slot_values afer get_remembered_slot_values: %s', slot_values)
+    logger.debug('<<BIBot>> "bottom_intent_handler(): slot_values afer get_remembered_slot_values: %s', slot_values)
 
     if slot_values.get('count') is None:
         slot_values['count'] = TOP_DEFAULT_COUNT
@@ -224,6 +224,6 @@ def top_intent_handler(intent_request, session_attributes):
     method_duration_string = 'method time = %.0f' % (method_duration * 1000) + ' ms'
     logger.debug('<<BIBot>> "Method duration is: ' + method_duration_string) 
     
-    logger.debug('<<BIBot>> top_intent_handler() - sessions_attributes = %s, response = %s', session_attributes, {'contentType': 'PlainText','content': response_string})
+    logger.debug('<<BIBot>> bottom_intent_handler() - sessions_attributes = %s, response = %s', session_attributes, {'contentType': 'PlainText','content': response_string})
 
     return helpers.close(session_attributes, 'Fulfilled', {'contentType': 'PlainText','content': response_string})   

@@ -22,6 +22,7 @@ import bibot_helpers as helpers
 import bibot_userexits as userexits
 import count_intent
 import top_intent
+import bottom_intent
 
 #
 # See additional configuration parameters at bottom 
@@ -67,6 +68,7 @@ def switch_intent_handler(intent_request, session_attributes):
 
 INTENT_CONFIG = {
     'Top_Intent':       {'handler': top_intent.top_intent_handler},
+    'Bottom_Intent':       {'handler': bottom_intent.bottom_intent_handler},
     'Count_Intent':     {'handler': count_intent.count_intent_handler}
 }
 

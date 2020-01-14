@@ -167,11 +167,11 @@ def top_intent_handler(intent_request, session_attributes):
         pass
     elif result_count == 1:
         try:
-            response_string += 'The top ' + bibot.DIMENSIONS.get(slot_values.get('dimension')).get('singular')
+            response_string += 'The bottom ' + bibot.DIMENSIONS.get(slot_values.get('dimension')).get('singular')
         except KeyError:
-            response_string += 'The top ' + slot_values.get('dimension')
+            response_string += 'The bottom ' + slot_values.get('dimension')
     else:
-        response_string += 'The top ' + str(result_count) + ' ' + slot_values.get('dimension')
+        response_string += 'The bottom ' + str(result_count) + ' ' + slot_values.get('dimension')
   
     # add the English versions of the WHERE clauses
     for dimension in bibot.DIMENSIONS:
@@ -227,4 +227,3 @@ def top_intent_handler(intent_request, session_attributes):
     logger.debug('<<BIBot>> top_intent_handler() - sessions_attributes = %s, response = %s', session_attributes, {'contentType': 'PlainText','content': response_string})
 
     return helpers.close(session_attributes, 'Fulfilled', {'contentType': 'PlainText','content': response_string})   
-
